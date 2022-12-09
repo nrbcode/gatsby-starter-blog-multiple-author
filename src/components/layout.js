@@ -7,12 +7,14 @@ const Layout = ({ location, title, children }) => {
   let header
 
   if (isRootPath) {
+    // home page
     header = (
       <h1 className="main-heading">
         <Link to="/">{title}</Link>
       </h1>
     )
   } else {
+    // post page
     header = (
       <Link className="header-link-home" to="/">
         {title}

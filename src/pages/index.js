@@ -1,18 +1,19 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
 
-import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
+  const siteDescription = data.site.siteMetadata?.description || `Description`
   const posts = data.allMarkdownRemark.nodes
+
+  
 
   if (posts.length === 0) {
     return (
-      <Layout location={location} title={siteTitle}>
-        <Bio />
+      <Layout location={location} title={siteTitle} description={siteDescription} >
         <p>
           No blog posts found. Add markdown posts to "content/blog" (or the
           directory you specified for the "gatsby-source-filesystem" plugin in
@@ -24,10 +25,17 @@ const BlogIndex = ({ data, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <Bio />
+      <nav>
+        <Link to="/authors">See all contributors</Link>
+      </nav>
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
           const title = post.frontmatter.title || post.fields.slug
+
+          // destructure authors array
+          const authors = post.frontmatter.authors.map(author => {
+            return (<div>{author.name}</div>)
+          })
 
           return (
             <li key={post.fields.slug}>
@@ -42,6 +50,7 @@ const BlogIndex = ({ data, location }) => {
                       <span itemProp="headline">{title}</span>
                     </Link>
                   </h2>
+                  Contributed by:{authors}
                   <small>{post.frontmatter.date}</small>
                 </header>
                 <section>
@@ -70,11 +79,13 @@ export default BlogIndex
  */
 export const Head = () => <Seo title="All posts" />
 
+
 export const pageQuery = graphql`
   {
     site {
       siteMetadata {
         title
+        description
       }
     }
     allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
@@ -86,6 +97,9 @@ export const pageQuery = graphql`
         frontmatter {
           date(formatString: "MMMM DD, YYYY")
           title
+          authors {
+            name
+          }
           description
         }
       }

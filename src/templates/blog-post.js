@@ -11,6 +11,14 @@ const BlogPostTemplate = ({
 }) => {
   const siteTitle = site.siteMetadata?.title || `Title`
 
+  // generate list of biographies from the authors array
+  const authorBios = post.frontmatter.authors.map(name => {
+    return (
+      <Bio author={name}></Bio>
+    )
+  })
+
+  //the whole returned object is an HTML document
   return (
     <Layout location={location} title={siteTitle}>
       <article
@@ -19,7 +27,7 @@ const BlogPostTemplate = ({
         itemType="http://schema.org/Article"
       >
         <header>
-          <h1 itemProp="headline">{post.frontmatter.title}</h1>
+          <h1 itemProp="headline">{post.frontmatter.title}</h1>          
           <p>{post.frontmatter.date}</p>
         </header>
         <section
@@ -28,7 +36,7 @@ const BlogPostTemplate = ({
         />
         <hr />
         <footer>
-          <Bio />
+          {authorBios}
         </footer>
       </article>
       <nav className="blog-post-nav">
@@ -72,6 +80,7 @@ export const Head = ({ data: { markdownRemark: post } }) => {
 
 export default BlogPostTemplate
 
+// a page query to populate the blog post template
 export const pageQuery = graphql`
   query BlogPostBySlug(
     $id: String!
@@ -88,8 +97,17 @@ export const pageQuery = graphql`
       excerpt(pruneLength: 160)
       html
       frontmatter {
-        title
         date(formatString: "MMMM DD, YYYY")
+        title
+        authors {
+          bio
+          name
+          picture {
+            childImageSharp {
+              gatsbyImageData(width: 100)
+            }
+          }
+        }
         description
       }
     }

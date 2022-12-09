@@ -9,31 +9,34 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
-    author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
-    },
+    title: `Blog - multiple authors`,
     description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
-    social: {
-      twitter: `kylemathews`,
-    },
+    siteUrl: `https://gatsbystarteronemain93235.gatsbyjs.io/`,
+    menuLinks:[
+      {
+        name: 'home',
+        link: '/'
+      },
+      {
+        name: 'authors',
+        link: '/authors'
+      }
+    ]
   },
   plugins: [
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/content/blog`,
         name: `blog`,
+        path: `${__dirname}/content/blog`
       },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: `${__dirname}/src/images`,
+        path: `${__dirname}/src/images`
       },
     },
     {
@@ -43,8 +46,8 @@ module.exports = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 630,
-            },
+              maxWidth: 630
+            }
           },
           {
             resolve: `gatsby-remark-responsive-iframe`,
@@ -118,8 +121,17 @@ module.exports = {
         // https://css-tricks.com/meta-theme-color-and-trickery/
         // theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/witch-hat.png`, // This path is relative to the root of the site.
       },
     },
-  ],
+    // enable yaml support and use content/contributors/ as a data source
+    `gatsby-transformer-yaml`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `authors`,
+        path: `${__dirname}/content/contributors`
+      }
+    }
+  ]
 }

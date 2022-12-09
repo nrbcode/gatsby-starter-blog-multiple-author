@@ -1,0 +1,12 @@
+- name: Harry Potter
+  bio: Just the greatest witch of all.
+  picture: ../../content/contributors/potter.jpeg
+- name: Albus Dumbledore
+  bio: Hogwarts Head of Witchcraft.
+  picture: ../../content/contributors/dumbledore.jpeg
+- name: Ron Weasley
+  bio: Harry's best friend.
+  picture: ../../content/contributors/weasley.jpeg
+- name: Hermione Granger
+  bio: A wicked witch, in the best sense.
+  picture: ../../content/contributors/hermione.jpeg
